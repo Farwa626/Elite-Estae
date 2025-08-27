@@ -1,0 +1,118 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(221, 211, 230);
+    color: #333;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.flats-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 30px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.flat-card {
+    background-color: white;
+    border: 3px solid #800080;
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    width: 345px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    opacity: 0;
+    animation: fadeIn 0.8s ease-in-out forwards;
+}
+
+.flat-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(233, 56, 207, 0.392);
+}
+
+.flat-card img {
+    width: 100%;
+    height: 270px;
+    object-fit: cover;
+    display: flexbox;
+}
+
+.flat-details {
+    padding: 20px;
+    text-align: left;
+}
+
+.flat-details h3 {
+    margin-top: 0;
+    color: #333;
+    font-size: 1.5em; 
+}
+
+.flat-details p {
+    margin: 10px 0; 
+    font-size: 1.2em;
+}
+
+.description {
+    font-style: italic;
+    color: #502222;
+    margin-top: 20px;
+    font-size: 2rem; 
+}
+
+.flat-details strong {
+    color: #130c13;
+}
+
+.view-details-btn {
+    width: 90%;
+    padding: 12px;
+    margin-bottom: 20px;
+    background-color: rgb(205, 186, 224);
+    color: #4B0082; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.view-details-btn:hover {
+    background-color: #dcc7d8;
+}
+.flat-card:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.flat-card:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.flat-card:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+.flat-card:nth-child(4) {
+    animation-delay: 0.8s;
+}
