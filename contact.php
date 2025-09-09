@@ -1,4 +1,7 @@
 <?php
+session_start();
+?>
+<?php
 // Load PHPMailer
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -135,62 +138,7 @@ if ($conn->connect_error) {
 </head>
 <body>
 
-<header class="header">
-    <nav class="navbar nav-1">
-        <section class="flex">
-           <a href="home.php" class="logo"><i class="fas fa-house"></i><b></b>ELITE ESTATE</a>
-           <ul>
-             <li><a href="view property/post property.html">post property<i class="fas fa-paper-plane"></i></a></li>
-           </ul>
-        </section>
-    </nav>
-
-    <nav class="navbar nav-2">
-        <section class="flex">
-           <div id="menu-btn" class="fas fa-bars"></div>
-           <div class="menu">
-              <ul>
-                 <li><a href="#">Buy<i class="fas fa-angle-down"></i></a>
-                    <ul>
-                       <li><a href="list2.php">House</a></li>
-                       <li><a href="list3.php">Flat</a></li>
-                       <li><a href="furnish1.php">Furnished</a></li>
-                    </ul>
-                 </li>
-                 <li><a href="#">Sell<i class="fas fa-angle-down"></i></a>
-                    <ul>
-                       <li><a href="view property/post property.html">Post Property</a></li>
-                       <li><a href="dash.html">Dashboard</a></li>
-                    </ul>
-                 </li>
-                 <li><a href="#">Rent</a>
-                    <ul>
-                       <li><a href="house.html">House</a></li>
-                       <li><a href="flats.html">Flat</a></li>
-                    </ul>
-                 </li>
-                 <li><a href="#">help<i class="fas fa-angle-down"></i></a>
-                    <ul>
-                       <li><a href="about1.html">About us</a></li>
-                       <li><a href="contact.html">Contact us</a></li>
-                       <li><a href="contact.html#faq">FAQ</a></li>
-                    </ul>
-                 </li>
-              </ul>
-           </div>
-
-           <ul>
-              <li><a href="saved.html">Saved <i class="far fa-heart"></i></a></li>
-              <li><a href="#">Account <i class="fas fa-angle-down"></i></a>
-                 <ul>
-                    <li><a href="login.html">Login</a></li>
-                    <li><a href="register.html">Register</a></li>
-                 </ul>
-              </li>
-           </ul>
-        </section>
-    </nav>
-</header>
+<?php include 'header.php' ?>
 
 <section class="contact">
     <div class="row">
@@ -251,18 +199,7 @@ if ($conn->connect_error) {
         ?>
     </div>
 </section>
-
-<footer class="footer">
-    <section class="flex">
-        <div class="box">
-            <a href="tel:1234567890"><i class="fas fa-phone"></i><span>123456789</span></a>
-            <a href="tel:1112223333"><i class="fas fa-phone"></i><span>1112223333</span></a>
-            <a href="mailto:hajrahamad@gmail.com"><i class="fas fa-envelope"></i><span>hajrahamad@gmail.com</span></a>
-            <a href="#"><i class="fas fa-map-marker-alt"></i><span>Pakistan, Mandi bhauddin - 50400</span></a>
-        </div>
-    </section>
-</footer>
-
+<?php include 'footer.php' ?>
 <script src="js/script.js"></script>
 </body>
 </html>
