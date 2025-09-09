@@ -200,8 +200,15 @@ session_start();
     }
   });
 </script>
-      <a href="agent1.php" class="inline-btn">Contact Agent</a>
-         <a href="buyer.html" class="inline-btn">Buy Now</a>
+           <!-- ✅ Conditional Buttons -->
+      <?php if (isset($_SESSION['user_id'])): ?>
+         <a href="agent1.php" class="inline-btn">Contact Agent</a>
+         <a href="buyer.php" class="inline-btn">Buy Now</a>
+      <?php else: ?>
+         <a href="login.php" class="inline-btn">Contact Agent</a>
+         <a href="login.php" class="inline-btn">Buy Now</a>
+      <?php endif; ?>
+    </div>
   </div>
 
   <script>
