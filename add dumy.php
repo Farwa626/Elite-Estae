@@ -137,6 +137,7 @@ if (isset($_GET['status']) && isset($_GET['message'])) {
     <!-- Add Property -->
     <div id="property" class="form-box" style="display:none;">
       <a href="property_manager.php" class="btn">🏡 Go to Property Manager</a>
+        <a href="building.php" class="btn">🏢 Go to Building Manager</a>
     </div>
 
     <!-- Property Requests -->
@@ -203,10 +204,10 @@ if (isset($_GET['status']) && isset($_GET['message'])) {
   <h2>👤 Pending Agent Requests</h2>
 
   <?php
-  // Handle Approve / Reject
-  if(isset($_GET['agent_action']) && isset($_GET['agent_id'])){
-      $action = $_GET['agent_action'];
-      $agentId = intval($_GET['agent_id']);
+  if(isset($_POST['agent_action']) && isset($_POST['agent_id'])){
+      $action = $_POST['agent_action'];
+      $agentId = intval($_POST['agent_id']);
+      $agentCode = isset($_POST['agent_code']) ? trim($_POST['agent_code']) : '';
 
       // Fetch request data
       $res = $conn->query("SELECT * FROM agent_requests WHERE id=$agentId AND approval_status='pending'");
@@ -214,15 +215,52 @@ if (isset($_GET['status']) && isset($_GET['message'])) {
           $agent = $res->fetch_assoc();
 
           if($action === 'approve'){
-              $agentCode = 'AGT'.rand(1000,9999);
+              if(empty($agentCode)){
+                  echo "<div class='status-message error'>❌ Please enter a valid Agent Code to approve</div>";
+              } else {
+                  // Check duplicate agent code
+                  $check = $conn->query("SELECT * FROM agents WHERE agent_code='$agentCode'");
+                  if($check && $check->num_rows > 0){
+                      echo "<div class='status-message error'>❌ This Agent Code already exists. Choose another.</div>";
+                  } else {
+                      // Insert into agents table
+                      $stmt = $conn->prepare("INSERT INTO agents (agent_code, name, email, phone, experience, cnic) VALUES (?, ?, ?, ?, ?, ?)");
+                      if(!$stmt){
+                          die("Prepare failed: " . $conn->error);
+                      }
+                      $stmt->bind_param("ssssss", $agentCode, $agent['name'], $agent['email'], $agent['phone'], $agent['experience'], $agent['cnic']);
+                      if(!$stmt->execute()){
+                          die("Execute failed: " . $stmt->error);
+                      }
 
-              $stmt = $conn->prepare("INSERT INTO agents (agent_code, name, email, phone, experience, cnic) VALUES (?,?,?,?,?,?)");
-              $stmt->bind_param("ssssds", $agentCode, $agent['name'], $agent['email'], $agent['phone'], $agent['experience'], $agent['cnic']);
-              $stmt->execute();
+                      // Update agent_requests table
+                      $conn->query("UPDATE agent_requests SET approval_status='approved' WHERE id=$agentId");
 
-              $conn->query("UPDATE agent_requests SET approval_status='approved' WHERE id=$agentId");
+                      // Send email to agent
+                      $to = $agent['email'];
+                      $subject = "Agent Request Approved - EliteState";
+                      $agentPanelLink = "https://yourdomain.com/agentpanel.php?agent_code=$agentCode";
+                      $message = "
+Dear {$agent['name']},
 
-              echo "<div class='status-message success'>✅ Agent approved and added with code $agentCode</div>";
+Congratulations! Your agent request has been approved by admin.
+
+Your unique Agent Code is: {$agentCode}
+
+You can access your agent panel using the link below:
+$agentPanelLink
+
+Please keep your agent code safe for login.
+
+Regards,
+EliteState Admin
+                      ";
+                      $headers = "From: admin@elitestate.com";
+                      @mail($to, $subject, $message, $headers);
+
+                      echo "<div class='status-message success'>✅ Agent approved with code $agentCode. Email sent to {$agent['email']}.</div>";
+                  }
+              }
           }
           elseif($action === 'reject'){
               $conn->query("UPDATE agent_requests SET approval_status='rejected' WHERE id=$agentId");
@@ -232,41 +270,51 @@ if (isset($_GET['status']) && isset($_GET['message'])) {
   }
 
   // Fetch pending agent requests
-  $result = $conn->query("SELECT * FROM agent_requests WHERE approval_status='pending' ORDER BY id DESC");
-  if($result && $result->num_rows > 0){
-      echo "<table>
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>CNIC</th>
-                  <th>Email</th>
-                  <th>Phone</th>
-                  <th>Experience</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>";
-      while($row = $result->fetch_assoc()){
-          echo "<tr>
+$result = $conn->query("SELECT * FROM agent_requests WHERE approval_status='pending' ORDER BY id DESC");
+if($result && $result->num_rows > 0){
+    echo "<table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>CNIC</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Experience</th>
+                <th>Agent Code</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>";
+    while($row = $result->fetch_assoc()){
+        echo "<tr>
+                <form method='POST'> <!-- har row ka apna form -->
                   <td>{$row['id']}</td>
-                  <td>{$row['name']}</td>
-                  <td>{$row['cnic']}</td>
-                  <td>{$row['email']}</td>
-                  <td>{$row['phone']}</td>
-                  <td>{$row['experience']}</td>
+                  <td>".htmlspecialchars($row['name'])."</td>
+                  <td>".htmlspecialchars($row['cnic'])."</td>
+                  <td>".htmlspecialchars($row['email'])."</td>
+                  <td>".htmlspecialchars($row['phone'])."</td>
+                  <td>".htmlspecialchars($row['experience'])."</td>
+                  <td><input type='text' name='agent_code' placeholder='Enter code' required></td>
                   <td>
-                    <a href='?show=agent&agent_action=approve&agent_id={$row['id']}' style='color:green;'>Approve</a> | 
-                    <a href='?show=agent&agent_action=reject&agent_id={$row['id']}' style='color:red;'>Reject</a>
+                    <input type='hidden' name='agent_id' value='{$row['id']}'>
+                    <button type='submit' name='agent_action' value='approve' style='color:green; background:none; border:none; cursor:pointer;'>Approve</button> | 
+                    <button type='submit' name='agent_action' value='reject' style='color:red; background:none; border:none; cursor:pointer;'>Reject</button>
                   </td>
-                </tr>";
-      }
-      echo "</tbody></table>";
-  } else {
-      echo "<p>No pending agent requests</p>";
-  }
-  ?>
+                </form>
+              </tr>";
+    }
+    echo "</tbody></table>";
+} else {
+    echo "<p>No pending agent requests</p>";
+}
+?>
 </div>
+
+
+
+
+
 
 
 
