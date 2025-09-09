@@ -33,8 +33,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Agent Request Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
 <style>
-  body { font-family: Arial, sans-serif; padding:20px; background:#f4f4f4; }
+  body { font-family: Arial, sans-serif;  background:#f4f4f4; }
   form { max-width:400px; margin:auto; background:white; padding:20px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
   label { display:block; margin-top:10px; font-weight:bold; }
   input { width:100%; padding:8px; margin-top:5px; border:1px solid #ccc; border-radius:5px; }
@@ -46,7 +48,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 </style>
 </head>
 <body>
-
+<?php include 'header.php' ?>
 <h2 style="text-align:center;">Agent Request Form</h2>
 
 <?php if($status_message): ?>
@@ -75,4 +77,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 </form>
 
 </body>
+
+<?php include 'footer.php' ?>
 </html>
