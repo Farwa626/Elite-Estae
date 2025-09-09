@@ -1,75 +1,54 @@
 <?php
 session_start();
-$conn = new mysqli("localhost","root","","elitestate");
-if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
+$error = '';
 
-// Check if admins table is empty
-$result = $conn->query("SELECT COUNT(*) as count FROM admins");
-$row = $result->fetch_assoc();
-if($row['count'] == 0){
-    // Create default admin with plaintext password
-    $defaultUsername = "Admin";
-    $defaultPassword = "Admin321";  // plaintext
-    $recovery_question = "What is your favorite color?";
-    $recovery_answer = "blue"; // plaintext
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $conn = new mysqli("localhost", "root", "", "elitestate");
 
-    $stmt = $conn->prepare("INSERT INTO admins (username, password, recovery_question, recovery_answer) VALUES (?,?,?,?)");
-    $stmt->bind_param("ssss", $defaultUsername, $defaultPassword, $recovery_question, $recovery_answer);
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    $sql = "SELECT * FROM admins WHERE username = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $username);
     $stmt->execute();
-}
 
-if ($_SERVER["REQUEST_METHOD"]=="POST") {
-    $username = trim($_POST['username']);
-    $password = trim($_POST['password']);
-
-    $stmt = $conn->prepare("SELECT * FROM admins WHERE username=?");
-    $stmt->bind_param("s",$username);
-    $stmt->execute();
     $result = $stmt->get_result();
-
-    if($row = $result->fetch_assoc()){
-        // Plaintext password check
-        if($password === $row['password']){
-            // Set session variables
-            $_SESSION['admin'] = $row['username'];
+    if ($result->num_rows === 1) {
+        $admin = $result->fetch_assoc();
+        if (password_verify($password, $admin['password'])) {
             $_SESSION['admin_logged_in'] = true;
-
-            // Alert and redirect
-            echo "<script>
-                    alert('✅ Login successful!');
-                    window.location.href='add dumy.php';
-                  </script>";
-            exit();
+            $_SESSION['admin_username'] = $admin['username'];
+            header("Location: admin_dashboard.php");
+            exit;
         } else {
-            $error = "❌ Wrong password!";
+            $error = "Invalid password.";
         }
     } else {
-        $error = "❌ No admin found!";
+        $error = "Admin not found.";
     }
 }
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-<title>Admin Login</title>
-<style>
-body{font-family:Arial;background:#f4f6f9;display:flex;justify-content:center;align-items:center;height:100vh;}
-.login-box{background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.2);width:300px;}
-input{width:100%;padding:10px;margin-top:10px;border:1px solid #ccc;border-radius:5px;}
-button{margin-top:15px;padding:10px;background:#6a1b9a;color:white;border:none;border-radius:5px;width:100%;}
-.error{color:red;margin-top:10px;}
-</style>
+  <title>Admin Login</title>
+  <style>
+    body { font-family: Arial; padding: 50px; }
+    form { max-width: 300px; margin: auto; }
+    input { width: 100%; padding: 10px; margin: 10px 0; }
+    .error { color: red; }
+  </style>
 </head>
 <body>
-<div class="login-box">
-<h2>Admin Login</h2>
-<form method="POST" autocomplete="off">
-  <input type="text" name="username" placeholder="Username" required autocomplete="off">
-  <input type="password" name="password" placeholder="Password" required autocomplete="new-password">
-  <button type="submit">Login</button>
-</form>
-<?php if(isset($error)) echo "<p class='error'>$error</p>"; ?>
-<p><a href="recover admin.php">Forgot Password?</a></p>
-</div>
+  <h2>Admin Login</h2>
+  <?php if ($error): ?>
+    <p class="error"><?= $error ?></p>
+  <?php endif; ?>
+  <form method="post">
+    <input type="text" name="username" placeholder="Admin Username" required>
+    <input type="password" name="password" placeholder="Password" required>
+    <input type="submit" value="Login">
+  </form>
 </body>
 </html>
