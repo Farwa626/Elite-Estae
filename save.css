@@ -1,0 +1,20 @@
+.property-card .save-btn,
+.property-card .view-saved,
+.property-card .back-link,
+.property-card button {
+  background-color: rgb(139, 97, 132);
+  color: white;
+  width: 150px;
+  height: 42px;
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.property-card .save-btn:hover,
+.property-card .view-saved:hover,
+.property-card .back-link:hover,
+.property-card button:hover {
+  background-color: rgb(26, 25, 25);
+}
