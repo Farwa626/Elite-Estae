@@ -126,7 +126,7 @@ if(isset($_POST['approve'])){
     }
 }
 
-/* ❌ If admin rejects */
+
 if(isset($_POST['reject'])){
     $request_id = intval($_POST['request_id']);
 
@@ -338,7 +338,7 @@ if (isset($_GET['status']) && isset($_GET['message'])) {
   <h2>📊 Admin Dashboard</h2>
   
   <?php
-    // Fetch counts (use static fallback if table empty or not ready)
+    
     $totalProperties = $conn->query("SELECT COUNT(*) AS total FROM property")->fetch_assoc()['total'] ?? 10;
     $pendingPropertyRequests = $conn->query("SELECT COUNT(*) AS total FROM request WHERE approval_status='pending'")->fetch_assoc()['total'] ?? 2;
     $totalUsers = $conn->query("SELECT COUNT(*) AS total FROM register")->fetch_assoc()['total'] ?? 5;
@@ -612,3 +612,4 @@ if (isset($_GET['status']) && isset($_GET['message'])) {
 </body>
 </html>
 <?php $conn->close(); ?>
+
