@@ -1,0 +1,22 @@
+       .container {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            padding: 2.5rem;
+            max-width: 900px;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .thumbnail-gallery .image-set {
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: border-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+        }
+        .thumbnail-gallery .image-set.active {
+            border-color: #3b82f6;
+            transform: scale(1.05);
+        }
+        .thumbnail-gallery .image-set:hover {
+            transform: scale(1.05);
+        }
+    </style>

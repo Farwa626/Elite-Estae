@@ -1,0 +1,28 @@
+/* house-detail.css */
+
+.house-detail-page {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.house-images {
+    width: 50%;
+    text-align: center;
+}
+
+.house-images img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.house-description {
+    width: 40%;
+}
+
+.house-description ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}

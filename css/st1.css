@@ -1,0 +1,13 @@
+#myVideo {
+    
+    margin: 0%;
+    margin-left: 0;
+    margin-top: 20%;
+    margin-bottom: 25%;
+    position: fixed; /* Stay in place */
+ 
+    min-width: 100%;
+    min-height: 80vh;
+   
+    z-index: -1; 
+  }

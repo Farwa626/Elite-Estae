@@ -1,0 +1,47 @@
+CSS (in style.css file):
+
+
+.search-container {
+	width: 20%;
+	margin: 20px auto;
+	padding: 20px;
+	background-color: #f9f9f9;
+	border: 1px solid #ddd;
+	box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+form {
+	display:-moz-box;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+label {
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+select, input[type="text"] {
+	width: 100%;
+	height: 40px;
+	margin-bottom: 20px;
+	padding: 10px;
+	border: 1px solid #ccc;
+}
+
+button[type="submit"] {
+	width: 20%;
+	height: 40px;
+	background-color: #102d11;
+	color: #fff;
+	padding: 10px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+button[type="submit"]:hover {
+	background-color: #233e24;
+}
+
+

@@ -1,0 +1,57 @@
+/* agents_animated.css */
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.agents-container {
+    width: 80%;
+    margin: 20px auto;
+}
+
+.agent-card {
+    display: flex;
+    background-color: white;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    align-items: center;
+    transition: transform 0.3s ease; /* Smooth hover effect */
+}
+
+.agent-card:hover {
+    transform: translateY(-5px); /* Slightly lift the card on hover */
+}
+
+.agent-image-container {
+    width: 200px;
+    height: 200px;
+    overflow: hidden; /* Clip the image to the container's bounds */
+}
+
+.agent-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease; /* Smooth image zoom effect */
+}
+
+.agent-image-container:hover .agent-image {
+    transform: scale(1.1); /* Zoom in on image on hover */
+}
+
+.agent-details {
+    padding: 20px;
+    flex: 1;
+}
+
+.agent-details h2 {
+    margin-top: 0;
+}
+
+.agent-details p {
+    margin-bottom: 10px;
+}

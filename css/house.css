@@ -1,0 +1,71 @@
+/* style.css */
+
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color:rgb(221, 220, 221);
+}
+
+.h1 {
+    padding: 100px 0;
+    background-color:rgb(149, 137, 149);
+    color: white;
+    margin: 0;
+    text-align:left;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
+.rental-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.rental-item {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.rental-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.details {
+    padding: 15px;
+}
+
+.details h3 {
+    margin-top: 0;
+}
+
+.details p {
+    margin-bottom: 10px;
+}
+
+.view-details-btn {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.view-details-btn:hover {
+    background-color: #0056b3;
+}

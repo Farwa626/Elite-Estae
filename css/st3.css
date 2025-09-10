@@ -1,0 +1,40 @@
+.search-container {
+    display: flex; /* Use flexbox for layout */
+    align-items: center; /* Vertically align items */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden; /* Hide any overflowing content */
+    max-width: 400px; /* Set a maximum width for the search bar */
+    margin: 0 auto; /* Center the search bar */
+}
+
+.search-input {
+    flex-grow: 1; /* Allow input to grow and fill available space */
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    outline: none; /* Remove default focus outline */
+}
+
+.search-button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-left: 1px solid #ccc; /* Add a separator between input and button */
+}
+
+.search-button:hover {
+    background-color: #45a049;
+}
+
+/* Optional: Add a magnifying glass icon */
+.search-icon {
+    padding: 0 10px;
+    color: #777;
+}

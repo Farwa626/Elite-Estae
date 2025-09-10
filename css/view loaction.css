@@ -1,0 +1,53 @@
+/* location_style.css */
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.location-container {
+    width: 80%;
+    margin: 20px auto;
+}
+
+.flat-location-details {
+    display: flex;
+    background-color: white;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.image-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    width: 400px; /* Adjust as needed */
+}
+
+.image-gallery img {
+    width: 190px; /* Adjust as needed */
+    height: 150px; /* Adjust as needed */
+    object-fit: cover;
+    margin: 5px;
+}
+
+.location-info {
+    padding: 20px;
+    flex: 1;
+}
+
+.location-info h2 {
+    margin-top: 0;
+}
+
+.location-info p {
+    margin-bottom: 10px;
+}
+
+#map-container iframe {
+    width: 100%; /* Make the iframe responsive */
+    height: 300px; /* Adjust the height as needed */
+    border: 0;
+}

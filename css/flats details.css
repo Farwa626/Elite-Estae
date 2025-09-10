@@ -1,0 +1,47 @@
+/* details_style.css */
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.details-container {
+    width: 80%;
+    margin: 20px auto;
+}
+
+.flat-detail {
+    display: flex;
+    background-color: white;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.flat-images {
+    display: flex;
+    flex-wrap: wrap;
+    width: 400px; /* Adjust as needed */
+}
+
+.flat-images img {
+    width: 190px; /* Adjust as needed */
+    height: 150px; /* Adjust as needed */
+    object-fit: cover;
+    margin: 5px;
+}
+
+.flat-info {
+    padding: 20px;
+    flex: 1;
+}
+
+.flat-info h2 {
+    margin-top: 0;
+}
+
+.flat-info p {
+    margin-bottom: 10px;
+}

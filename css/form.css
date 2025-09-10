@@ -1,0 +1,187 @@
+<style>
+  form {
+    width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    opacity: 0; /* Initially hidden for animation */
+    transform: translateY(-20px); /* Initial position for animation */
+    animation: fadeInSlideDown 0.8s ease-out forwards;
+  }
+
+  @keyframes fadeInSlideDown {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  form h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    animation: colorChange 4s infinite alternate;
+  }
+
+  @keyframes colorChange {
+    0% { color: #333; }
+    50% { color: #007bff; }
+    100% { color: #333; }
+  }
+
+  .box {
+    margin-bottom: 15px;
+    position: relative;
+  }
+
+  .box p {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+  }
+
+  .input {
+    width: calc(100% - 22px); /* Adjust width to account for padding */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+  }
+
+  .input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add glow effect */
+  }
+
+  .flex {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  }
+
+  .flex .box {
+    width: calc(50% - 10px); /* Adjust width for spacing */
+    box-sizing: border-box; /* Include padding and border in width */
+    margin-bottom: 15px;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn:hover {
+    background-color: #0056b3;
+  }
+
+  /* Add animation to input fields on focus */
+  .input {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .input:focus {
+    transform: scale(1.02);
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.7);
+  }
+
+  /* Add animation to select fields on focus */
+  select.input {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  select.input:focus {
+    transform: scale(1.02);
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.7);
+  }
+
+  /* add animation to the button */
+  .btn{
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .btn:hover{
+    transform: scale(1.05);
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.7);
+  }
+
+</style>
+
+<form action="search.html" method="post">
+  <h3>Find your perfect home</h3>
+  <div class="box">
+    <p>Enter location <span></span></p>
+    <input type="text" name="location" required maxlength="50" placeholder="Enter City Name" class="input">
+  </div>
+  <div class="flex">
+    <div class="box">
+      <p>Property Type <span></span></p>
+      <select name="type" class="input" required>
+        <option value="flat">Flat</option>
+        <option value="house">House</option>
+      </select>
+    </div>
+    <div class="box">
+      <p>How many Marla <span></span></p>
+      <select name="bhk" class="input" required>
+        <option value="1">1 Marla</option>
+        <option value="2">2 Marla</option>
+        <option value="3">3 Marla</option>
+        <option value="4">4 Marla</option>
+        <option value="5">5 Marla</option>
+        <option value="6">6 Marla</option>
+        <option value="7">7 Marla</option>
+        <option value="8">8 Marla</option>
+        <option value="9">9 Marla</option>
+      </select>
+    </div>
+    <div class="box">
+      <p>Minimum budget <span></span></p>
+      <select name="minimum" class="input" required>
+        <option value="5000000">5 lac</option>
+        <option value="1000000">10 lac</option>
+        <option value="2000000">20 lac</option>
+        <option value="3000000">30 lac</option>
+        <option value="4000000">40 lac</option>
+        <option value="5000000">50 lac</option>
+        <option value="6000000">60 lac</option>
+        <option value="7000000">70 lac</option>
+        <option value="8000000">80 lac</option>
+        <option value="9000000">90 lac</option>
+        <option value="10000000">1 Cr</option>
+        <option value="20000000">2 Cr</option>
+        <option value="30000000">3 Cr</option>
+        <option value="40000000">4 Cr</option>
+        <option value="50000000">5 Cr</option>
+        <option value="60000000">6 Cr</option>
+        <option value="70000000">7 Cr</option>
+        <option value="80000000">8 Cr</option>
+        <option value="90000000">9 Cr</option>
+        <option value="100000000">10 Cr</option>
+        <option value="150000000">15 Cr</option>
+        <option value="200000000">20 Cr</option>
+      </select>
+    </div>
+    <div class="box">
+      <p>Maximum budget <span></span></p>
+      <select name="maximum" class="input" required>
+        <option value="5000000">5 lac</option>
+        <option value="1000000">10 lac</option>
+        <option value="2000000">20 lac</option>
+        <option value="3000000">30 lac</option>
+        <option value="4000000">40 lac</option>
+        <option value="5000000">50 lac</option>
+        <option value="6000000">60 lac</option>
+        <option value="7000000">70 lac</option>
+        <option value="8000000">80 lac</option>
+        <option value="9000000">90 lac</option>
+        <option value="10000000">1 Cr</option>
+        <option value="20000000">2 Cr</option>
