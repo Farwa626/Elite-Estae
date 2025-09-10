@@ -27,6 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     }
 }
 
+
 // ✅ If logged in
 if (isset($_SESSION['agent_id'])) {
     $agent_id = $_SESSION['agent_id'];
@@ -83,7 +84,22 @@ if (isset($_SESSION['agent_id'])) {
         }
     }
 }
+// Get unique property owners (leads)
+$owners = $conn->query("SELECT ownername, phone, COUNT(*) as property_count 
+                        FROM properties 
+                        GROUP BY ownername, phone 
+                        ORDER BY ownername ASC");
+
+
+// Assigned Requests
+$assignedRequests = $conn->query("
+    SELECT * FROM request 
+    WHERE assigned_agent = $agent_id 
+    ORDER BY id DESC
+");
+
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -111,7 +127,7 @@ if (isset($_SESSION['agent_id'])) {
     th, td { padding:12px 10px; border:1px solid #ddd; text-align:left; }
     tr:nth-child(even) { background:#f9f9f9; }
 
-    .btn { padding:10px 18px; background:#007BFF; color:white; border:none; border-radius:6px; cursor:pointer; transition:0.3s; font-size:15px; }
+    .btn { padding:10px 18px; background:#007BFF; color:white; border:none; border-radius:6px; cursor:pointer; transition:0.3s; font-size:15px; display:inline-block; margin-bottom:15px; }
     .btn:hover { background:#0056b3; }
 
     .form-group { margin-bottom:12px; }
@@ -143,7 +159,6 @@ if (isset($_SESSION['agent_id'])) {
 <body>
 
 <?php if (!isset($_SESSION['agent_id'])): ?>
-<!-- 🔑 Login Form -->
 <header>
   <h1>EliteEstate - Agent Login</h1>
 </header>
@@ -165,7 +180,6 @@ if (isset($_SESSION['agent_id'])) {
 </div>
 
 <?php else: ?>
-<!-- 🎯 Agent Panel -->
 <header>
   <h1>EliteEstate - Agent Panel</h1>
   <nav>
@@ -175,22 +189,23 @@ if (isset($_SESSION['agent_id'])) {
 </header>
 
 <div class="container">
-  <!-- Tabs -->
   <div class="tabs">
     <div class="tab active" id="tab-dashboard" onclick="openTab('dashboard')">Dashboard</div>
     <div class="tab" id="tab-properties" onclick="openTab('properties')">My Properties</div>
     <div class="tab" id="tab-add" onclick="openTab('add')">Add Property</div>
+    <div class="tab" id="tab-leads" onclick="openTab('leads')">Owner Leads</div>
+    <div class="tab" id="tab-requests" onclick="openTab('requests')">Assigned Requests</div>
     <div class="tab" id="tab-profile" onclick="openTab('profile')">Profile</div>
   </div>
 
-  <!-- 📊 Dashboard -->
   <div class="tab-content active" id="dashboard">
+    <a href="home.php" class="btn">Go to Website</a>
     <h3>Dashboard Overview</h3>
     <p>Total Properties: <b><?= $prop_count ?></b></p>
   </div>
 
-  <!-- 🏠 Properties -->
   <div class="tab-content" id="properties">
+    <a href="home.php" class="btn">Go to Website</a>
     <h3>All Properties</h3>
     <table>
       <thead>
@@ -198,22 +213,22 @@ if (isset($_SESSION['agent_id'])) {
       </thead>
       <tbody>
       <?php while($p = $properties->fetch_assoc()): ?>
-      <tr>
-        <td><?= $p['title'] ?></td>
-        <td><?= $p['location'] ?></td>
-        <td><?= $p['price'] ?></td>
-        <td><?= ucfirst($p['status']) ?></td>
-        <td><?= $p['ownername'] ?></td>
-        <td><?= $p['phone'] ?></td>
-        <td><?= $p['date_posted'] ?></td>
-      </tr>
+        <tr>
+          <td><?= $p['title'] ?></td>
+          <td><?= $p['location'] ?></td>
+          <td><?= $p['price'] ?></td>
+          <td><?= ucfirst($p['status']) ?></td>
+          <td><?= $p['ownername'] ?></td>
+          <td><?= $p['phone'] ?></td>
+          <td><?= $p['date_posted'] ?></td>
+        </tr>
       <?php endwhile; ?>
       </tbody>
     </table>
   </div>
 
-  <!-- ➕ Add Property -->
   <div class="tab-content" id="add">
+    <a href="home.php" class="btn">Go to Website</a>
     <h3>Request New Property</h3>
     <?php if(isset($success)) echo "<div class='success'>$success</div>"; ?>
     <form method="post">
@@ -242,23 +257,85 @@ if (isset($_SESSION['agent_id'])) {
     </form>
   </div>
 
-  <!-- 👤 Profile -->
+
+  <div class="tab-content" id="leads">
+  <a href="home.php" class="btn">Go to Website</a>
+  <h3>Owner Leads</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Owner Name</th>
+        <th>Phone</th>
+        <th>Total Properties</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php while($owner = $owners->fetch_assoc()): ?>
+      <tr>
+        <td><?= htmlspecialchars($owner['ownername']) ?></td>
+        <td><?= htmlspecialchars($owner['phone']) ?></td>
+        <td><?= $owner['property_count'] ?></td>
+      </tr>
+      <?php endwhile; ?>
+    </tbody>
+  </table>
+</div>
+
+
   <div class="tab-content" id="profile">
+    <a href="home.php" class="btn">Go to Website</a>
     <h3>My Profile</h3>
     <?php if(isset($success_profile)) echo "<div class='success'>$success_profile</div>"; ?>
     <?php if(isset($error_profile)) echo "<div class='error'>$error_profile</div>"; ?>
 
-    <div class="profile-card">
-      <img src="<?= !empty($agentData['picture']) ? $agentData['picture'] : 'https://via.placeholder.com/100' ?>" alt="Profile Picture">
-      <div class="profile-info">
-        <p><b>Name:</b> <?= $agentData['name'] ?></p>
-        <p><b>Email:</b> <?= $agentData['email'] ?></p>
-        <p><b>Agent Code:</b> <?= $agentData['agent_code'] ?></p>
-        <p><b>Phone:</b> <?= $agentData['phone'] ?></p>
-        <p><b>Experience:</b> <?= $agentData['experience'] ?> years</p>
-        <p><b>Joined:</b> <?= $agentData['created_at'] ?></p>
-      </div>
-    </div>
+ <div class="profile-card">
+  <img src="<?= !empty($agentData['picture']) ? $agentData['picture'] : 'https://via.placeholder.com/100' ?>" alt="Profile Picture">
+  <div class="profile-info">
+    <p><b>Name:</b> <?= $agentData['name'] ?? 'N/A' ?></p>
+    <p><b>Email:</b> <?= $agentData['email'] ?? 'N/A' ?></p>
+    <p><b>Agent Code:</b> <?= $agentData['agent_code'] ?? 'N/A' ?></p>
+    <p><b>Phone:</b> <?= $agentData['phone'] ?? 'N/A' ?></p>
+    <p><b>Experience:</b> <?= $agentData['experience'] ?? '0' ?> years</p>
+    <p><b>Joined:</b> <?= $agentData['created_at'] ?? 'N/A' ?></p>
+  </div>
+</div>
+
+
+
+
+<div class="tab-content" id="requests">
+  <a href="home.php" class="btn">Go to Website</a>
+  <h3>My Assigned Requests</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Owner</th>
+        <th>Email</th>
+        <th>Title</th>
+        <th>Location</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php if ($assignedRequests && $assignedRequests->num_rows > 0): ?>
+        <?php while($r = $assignedRequests->fetch_assoc()): ?>
+        <tr>
+          <td><?= $r['id'] ?></td>
+          <td><?= htmlspecialchars($r['owner_name']) ?></td>
+          <td><?= htmlspecialchars($r['email']) ?></td>
+          <td><?= htmlspecialchars($r['title']) ?></td>
+          <td><?= htmlspecialchars($r['location']) ?></td>
+          <td><?= ucfirst($r['status']) ?></td>
+        </tr>
+        <?php endwhile; ?>
+      <?php else: ?>
+        <tr><td colspan="6">No assigned requests found.</td></tr>
+      <?php endif; ?>
+    </tbody>
+  </table>
+</div>
+
 
     <h3>Edit Profile</h3>
     <form method="post" enctype="multipart/form-data">
