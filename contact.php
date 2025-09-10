@@ -74,8 +74,7 @@ $username = "root";
 $password = "";
 $dbname = "elitestate";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
+$conn = new mysqli("localhost", "root", "", "elitestate", 3307);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
@@ -160,20 +159,24 @@ if ($conn->connect_error) {
     <h1 class="heading">General Frequently Asked Questions</h1>
     <div class="box-container">
         <div class="box active">
-            <h3><span>Can I visit property before booking?</span><i class="fas fa-angle-down"></i></h3>
-            <p>Yes, schedule a viewing with our agent to explore the property.</p>
+            <h3><span>How to register?</span><i class="fas fa-angle-down"></i></h3>
+            <p>For registering Click on account.Click register button and fill required information.</p>
         </div>
         <div class="box active">
-            <h3><span>What documents are needed for booking?</span><i class="fas fa-angle-down"></i></h3>
-            <p>Typically, you'll need ID proof and other relevant documents. Our team will provide a detailed list.</p>
+            <h3><span>From where we chcek the details of property?</span><i class="fas fa-angle-down"></i></h3>
+            <p>By clicking on view property button.we can easily access the property deails</p>
         </div>
         <div class="box">
-            <h3><span>How long does it takes to complete the registration process?</span><i class="fas fa-angle-down"></i></h3>
-            <p>Registration usually takes a few days to a week.</p>
+            <h3><span>Is login needed before booking of property?</span><i class="fas fa-angle-down"></i></h3>
+            <p>Yes its necessary to login before booking property.</p>
         </div>
         <div class="box">
-            <h3><span>What are the property's Amenities?</span><i class="fas fa-angle-down"></i></h3>
-            <p>Our property features swimming pool, gym, parking, security etc.</p>
+            <h3><span>How to send hier request to an agent?</span><i class="fas fa-angle-down"></i></h3>
+            <p>Select Request to agent from Nav bar then fill form.Press submit request.</p>
+        </div>
+        <div class="box">
+            <h3><span>How to save property for later?</span><i class="fas fa-angle-down"></i></h3>
+            <p>When you view any property details then check button that given below  click on save property.Click ok when alert occur.its redirect you to save property button.</p>
         </div>
     </div>
 </section>
