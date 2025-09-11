@@ -52,8 +52,8 @@
 
     <div class="box social-icons">
         <a href="https://www.facebook.com/profile.php?id=61577889561897" target="_blank"><i class="fab fa-facebook-f"></i></a>
-        <a href="https://twitter-cl.vercel.app/home" target="_blank"><i class="fab fa-twitter"></i></a>
-        <a href="https://www.instagram.com/elite_state23/?hl=en" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.linkedin.com/in/elite-estate-5640b3384?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="https://www.instagram.com/elitestate130?igsh=MXNqbXVwdzd1bTVkMw==" target="_blank"><i class="fab fa-instagram"></i></a>
     </div>
 </section>
 </footer>
