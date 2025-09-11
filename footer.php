@@ -40,8 +40,8 @@
 <footer class="footer">
 <section class="flex">
     <div class="box about-contact">
-        <a href="about1.html"><span>About us</span></a>
-        <a href="contact.html"><span>Contact us</span></a>
+        <a href="about1.php"><span>About us</span></a>
+        <a href="contact.php"><span>Contact us</span></a>
     </div>
 
     <div class="box contact-info">
@@ -57,3 +57,4 @@
     </div>
 </section>
 </footer>
+
