@@ -14,51 +14,45 @@ session_start();
     <link rel="stylesheet" href ="css/agent1.css">
     
     <style>
-        /* This is the main body background */
+       
         body {
-            background-color: rgb(230, 214, 245); /* Light purple background color as requested */
+            background-color: rgb(230, 214, 245); 
+#splash {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(35, 12, 59, 0.6);
+          backdrop-filter: blur(8px);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          color: white;
+          font-family: Arial, sans-serif;
+          font-size: 28px;
+          z-index: 1000;
         }
-        .splash {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(35, 12, 59, 0.6); /* Dark purple with transparency */
-  backdrop-filter: blur(8px); /* Blur effect on background */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  color: white;
-  font-family: Arial, sans-serif;
-  font-size: 28px;
-  z-index: 1000;
-}
-    #splash h1 {
-      margin: 0;
-      animation: fadeIn 0.5s ease-in-out;
-    }
+        #splash h1 {
+          margin: 0;
+          animation: fadeIn 0.5s ease-in-out;
+        }
+        #splash p {
+          font-size: 16px;
+          margin-top: 10px;
+          opacity: 0.8;
+        }
 
-    #splash p {
-      font-size: 16px;
-      margin-top: 10px;
-      opacity: 0.8;
-    }
+       
+        #main {
+          display: none;
+        }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    /* Hide splash after load */
-    #main {
-      display: none;
-      padding: 20px;
-      text-align: center;
-      font-family: Arial, sans-serif;
-    }
-        
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }        
         /* Hero Section Styles */
         .hero-section {
             background-image: url(images/bg.png);
@@ -153,14 +147,14 @@ session_start();
                 padding: 0.75rem 1rem;
             }
         }
-        /* Find your perfect home form styles */
+
         .home .center form {
             background-color: #834983ff;
-            padding: 40px; /* Reduced padding for a better look */
-            width: 90%; /* To be smaller than the main body */
+            padding: 40px; 
+            width: 90%; 
             max-width: 600px;
             margin: 80px auto;
-            border-radius: 30px; /* Rounded corners like in the image */
+            border-radius: 30px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
@@ -193,7 +187,7 @@ session_start();
       max-width: 350px;
       margin: 6px auto 0;
       border-radius: 6px;
-      background: #960e7fff;
+      background: #fff;
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
@@ -208,15 +202,15 @@ session_start();
       border-bottom: 1px solid #f1f1f1;
       transition: background 0.2s ease;
       font-size: 14px;
-      white-space: nowrap;        /* ek line me rakho */
-      overflow: hidden;           /* zyada text cut ho jaye */
-      text-overflow: ellipsis;    /* cut hone par "..." show ho */
+      white-space: nowrap;       
+      overflow: hidden;          
+      text-overflow: ellipsis;   
     }
     #suggestions div:last-child {
       border-bottom: none;
     }
     #suggestions div:hover {
-      background: #5e044fff;
+      background: #f7f9fc;
     }
     /* Property details card */
     #propertyDetails {
@@ -267,7 +261,6 @@ session_start();
       from { opacity: 0; transform: translateY(-5px); }
       to { opacity: 1; transform: translateY(0); }
     }
- 
 
 
 
@@ -328,7 +321,7 @@ session_start();
             font-size: 3rem;
         }
 
-        /* Agent Box Styles */
+       
         
         .agent-container {
             display: flex;
@@ -400,15 +393,14 @@ session_start();
     </style>
 </head>
 <body>
-    <!-- Splash Screen -->
-    <div id="splash">
-        <i class="fas fa-house fa-2x"></i>
-        <h1>Elite E-State</h1>
-        <p>Your Trusted Property Partner</p>
-    </div>
+  <div id="splash">
+    <i class="fas fa-house fa-2x"></i>
+    <h1>Elite Estate</h1>
+    <p>Your Trusted Property Partner</p>
+</div>
 
 <?php include 'header.php'; ?>
-
+<div id="main" style="display:none;"> 
     <div class="hero-section">
         <div class="overlay">
             <div class="hero-content">
@@ -419,14 +411,13 @@ session_start();
         </div>
     </div>
 <div class="home">
-        <section class="center">
-            <form id="searchForm" method="post">
-                <h1><i>Find your perfect home</i></h1>
+<section class="center">
   <div class="search-box">
     <input type="text" id="searchInput" placeholder="Search by title or location...">
     <div id="suggestions"></div>
   </div>
 
+  <div id="propertyDetails"></div>
 </section>
     <section class="services">
         <h1 class="heading">Our Services</h1>
@@ -439,28 +430,28 @@ session_start();
                 <p>Real estate is land and any permanent structures or improvements attached to the land.</p>
             </div>
             <div class="box1">
-                <a href="house.html">
+                <a href="house.php">
                     <img src="images/rent house.png" alt="">
                 </a>
                 <h3>Rent house</h3>
                 <p>Provide description of the property, including any unique features. Eg numbers of rooms, bathrooms, or the style.</p>
             </div>
             <div class="box1">
-                <a href="property.html">
+                <a href="property.php">
                     <img src="images/sell house.png" alt="">
                 </a>
                 <h3>Sell house</h3>
                 <p>Include information about the property (Number of Bedrooms, bathrooms, Size of rooms), the payment process.</p>
             </div>
             <div class="box1">
-                <a href="flats.html">
+                <a href="Rflats.php">
                     <img src="images/flat and buildings.png" alt="">
                 </a>
                 <h3>Flats</h3>
                 <p>Flats are more affordable. Typically consist of multiple rooms, bedrooms, kitchen, bathroom.</p>
             </div>
             <div class="box1">
-                <a href="furnish1.html">
+                <a href="furnish1.php">
                     <img src="images/b.flats.png" alt="">
                 </a>
                 <h3>Building</h3>
@@ -474,21 +465,21 @@ session_start();
                 <p>Our services are available 24/7, so you can always reach us when you need assistance.you can approach.</p>
             </div>
             <div class="box1">
-                <a href="agent1.html">
+                <a href="agent1.php">
                     <img src="images/hier agents.png" alt="">
                 </a>
                 <h3>Hiring Agents</h3>
                 <p>If you want to visit place then hire agents to conduct property viewings and provide exceptional service.</p>
             </div>
             <div class="box1">
-                <a href="promotion.html">
-                    <img src="images/advertisment.png" alt="">
+                <a href="Blog.php">
+                    <img src="images/blog.png" alt="">
                 </a>
-                <h3>Advertisment by banner</h3>
+                <h3>Blogs</h3>
                 <p>Advertisment help you to Advertising your project, promoting events,or enhancing brand visibility.</p>
             </div>
             <div class="box1">
-                <a href="contact.html#faq">
+                <a href="contact.php#faq">
                     <img src="images/feedback.png" alt="">
                 </a>
                 <h3>Feedback & Helpcenter</h3>
@@ -568,8 +559,7 @@ session_start();
          <div class="admin">
             <img src="images/man_7790130.png" alt="Avatar" class="avatar">
             <div>
-               <p>Shahid Hussain <span class="house-number">(House #124)</span></p>
-               <span>06-20-2022</span>
+               <p>Shahid Hussain <span class="house-number">(House #124)</span></p><span>06-20-2022</span>
             </div>
          </div>
          <div class="thumb">
@@ -593,7 +583,7 @@ session_start();
          <div class="admin">
             <img src="images/man_4140048.png" alt="Avatar" class="avatar">
             <div>
-               <p>Yasir khan  <span class="house-number">(House #124)</span></p>
+               <p>Yasir khan  <span class="house-number">(House #125)</span></p>
                <span>05-10-2022</span>
             </div>
          </div>
@@ -624,9 +614,14 @@ session_start();
 
 
   <script>
+     setTimeout(() => {
+        document.getElementById("splash").style.display = "none";
+        document.getElementById("main").style.display = "block";
+    }, 2500);
+
     let properties = [];
 
-    // Fetch properties from JSON
+   
     async function loadProperties() {
       try {
         let response = await fetch("property.json");
@@ -636,50 +631,49 @@ session_start();
       }
     }
 
-    // Show suggestions
-    function showSuggestions(list, queryWords) {
+
+    function showSuggestions(list, queryWords, dbResults = "") {
       let suggestions = document.getElementById("suggestions");
       suggestions.innerHTML = "";
 
-      if (list.length === 0) {
-        suggestions.innerHTML = `<div>No results found</div>`;
-        return;
+      if (list.length > 0) {
+        list.slice(0, 5).forEach(item => {
+          let div = document.createElement("div");
+          let text = item.title + " • " + item.location;
+
+  
+          let highlighted = text;
+          queryWords.forEach(word => {
+            let regex = new RegExp("(" + word + ")", "gi");
+            highlighted = highlighted.replace(regex, "<b>$1</b>");
+          });
+
+          div.innerHTML = highlighted;
+          div.style.cursor = "pointer";
+          div.addEventListener("click", () => showPropertyDetails(item));
+          suggestions.appendChild(div);
+        });
       }
 
-      // 🔹 Only show top 5 results
-      list.slice(0, 5).forEach(item => {
-        let div = document.createElement("div");
-        let text = item.title + " • " + item.location;
+ 
+      if (dbResults.trim() !== "") {
+        let dbDiv = document.createElement("div");
+        dbDiv.innerHTML = "<hr><b>Database Results:</b>" + dbResults;
+        suggestions.appendChild(dbDiv);
+      }
 
-        // Case-insensitive highlighting
-        let highlighted = text;
-        queryWords.forEach(word => {
-          let regex = new RegExp("(" + word + ")", "gi");
-          highlighted = highlighted.replace(regex, "<b>$1</b>");
-        });
-
-        div.innerHTML = highlighted;
-        div.addEventListener("click", () => showPropertyDetails(item));
-        suggestions.appendChild(div);
-      });
+   
+      if (list.length === 0 && dbResults.trim() === "") {
+        suggestions.innerHTML = `<div>No results found</div>`;
+      }
     }
 
-    // Show selected property details
     function showPropertyDetails(item) {
-      let details = document.getElementById("propertyDetails");
-      details.style.display = "block";
-      details.innerHTML = `
-        <img src="${item.image}" alt="${item.title}">
-        <h3>${item.title}</h3>
-        <p><b>Location:</b> ${item.location}</p>
-        <p><b>Price:</b> ${item.price}</p>
-        <a href="${item.link}" target="_blank">View More</a>
-      `;
-      document.getElementById("suggestions").innerHTML = ""; // hide suggestions
-      document.getElementById("searchInput").value = item.title; // fill input
+
+      window.location.href = "suggestpro.php?id=" + encodeURIComponent(item.id);
     }
 
-    // Live search with multi-word support
+    
     document.getElementById("searchInput").addEventListener("input", function () {
       let query = this.value.toLowerCase().trim();
 
@@ -688,18 +682,24 @@ session_start();
         return;
       }
 
-      // Split query into words
       let words = query.split(/\s+/);
+
 
       let filtered = properties.filter(item => {
         let text = (item.title + " " + item.location).toLowerCase();
         return words.every(word => text.includes(word));
       });
 
-      showSuggestions(filtered, words);
+      fetch("search.php?q=" + encodeURIComponent(query))
+        .then(res => res.text())
+        .then(dbResults => {
+          showSuggestions(filtered, words, dbResults);
+        })
+        .catch(() => {
+          showSuggestions(filtered, words, "");
+        });
     });
 
-    // Close suggestions when clicking outside
     document.addEventListener("click", function (e) {
       if (!e.target.closest(".search-box")) {
         document.getElementById("suggestions").innerHTML = "";
@@ -708,6 +708,7 @@ session_start();
 
     // Load properties on page load
     loadProperties();
-  </script>
+</script>
+
 </body>
 </html>
