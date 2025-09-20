@@ -51,15 +51,15 @@ session_start();
         .view-details-btn {
             display: inline-block;
             margin-top: 10px;
-            padding: 10px 20px;
-            background-color: #007BFF;
+            padding: 15px 20px;
+            background-color:  rgb(139, 97, 132);;
             color: white;
             text-decoration: none;
-            border-radius: 5px;
+          
             transition: background-color 0.3s ease;
         }
         .view-details-btn:hover {
-            background-color: #0056b3;
+            background-color: #6e3b67ff;
         }
     </style>
 </head>
@@ -99,27 +99,14 @@ session_start();
             </div>
         </div>
         <?php
-        // Database connection details
-        $servername = "localhost";
-        $username = "root"; // Your database username
-        $password = ""; // Your database password
-        $dbname = "elitestate"; // Your database name
-
-        // Create connection
-        $conn = new mysqli($servername, $username, $password, $dbname);
-
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
-        // Fetch properties from the database
+       
+        include 'db.php';
         $sql = "SELECT id, title, house_number, price, availability, image_path FROM furnish ORDER BY created_at DESC";
 
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
-            // Loop through each row and display a property card
+            
             while($row = $result->fetch_assoc()) {
         ?>
         <div class="property-section">
