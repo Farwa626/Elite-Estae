@@ -1,27 +1,17 @@
 <?php
 session_start();
-
-// Database connection details
-$servername = "localhost";
-$username = "root"; 
-$password = ""; 
-$dbname = "elitestate"; 
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'db.php';
 
 $property = null;
 
-// Check if a property ID is provided in the URL
+
 if (isset($_GET['id'])) {
     $property_id = $_GET['id'];
-    
-    // Fetch property details from the database
-    $sql = "SELECT id, title, house_number, price, availability, image_path, description, location, bedrooms, bathrooms FROM furnish WHERE id = ?";
+
+    $sql = $sql = "SELECT id, title, house_number, price, availability, image_path, gallery_images, description, location, bedrooms, bathrooms, 
+               agent_name,agent_phone,is_furnished, parking, amenities, security, property_age, floor_count, size
+        FROM furnish WHERE id = ?";
+
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $property_id);
     $stmt->execute();
@@ -36,7 +26,7 @@ if (isset($_GET['id'])) {
 $conn->close();
 
 if (!$property) {
-    // If no property is found, show an error message
+
     echo "<p style='text-align: center; color: red;'>Property not found.</p>";
     include 'footer.php';
     exit();
@@ -137,18 +127,55 @@ if (!$property) {
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             line-height: 1.6;
         }
+        .thumbnail-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.thumbnail-gallery img {
+    height: 100px;
+    width: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
     </style>
 </head>
 <body>
 
 <?php include 'header.php' ?>
 
-<div class="gallery-container">
-    <img src="<?php echo htmlspecialchars($property['image_path']); ?>" class="main-image" id="mainImage" alt="<?php echo htmlspecialchars($property['title']); ?>">
+
+  <div class="gallery-container">
+    <!-- Main image -->
+    <img src="<?php echo htmlspecialchars($property['image_path']); ?>" 
+         class="main-image" id="mainImage" 
+         alt="<?php echo htmlspecialchars($property['title']); ?>">
+
+    <!-- Thumbnails -->
     <div class="thumbnail-gallery" id="thumbnailGallery">
-        <img src="<?php echo htmlspecialchars($property['image_path']); ?>" onclick="changeMainImage(this.src)">
+        <img src="<?php echo htmlspecialchars($property['image_path']); ?>" 
+             onclick="changeMainImage(this.src)">
+
+        <?php 
+        if (!empty($property['gallery_images'])) {
+            $gallery = explode(",", $property['gallery_images']); 
+            foreach ($gallery as $img) {
+                $img = trim($img);
+                if (!empty($img)) {
+                    echo '<img src="'.htmlspecialchars($img).'" onclick="changeMainImage(this.src)">';
+                }
+            }
+        }
+        ?>
     </div>
 </div>
+
 
 <div class="property-info">
     <h2><i class="fas fa-home"></i><span>Property Details</span></h2>
@@ -161,6 +188,15 @@ if (!$property) {
         <div><strong>Bathrooms:</strong> <?php echo htmlspecialchars($property['bathrooms']); ?></div>
         <div><strong>Availability:</strong> <?php echo htmlspecialchars($property['availability']); ?></div>
         <div><strong>Price:</strong> <?php echo htmlspecialchars($property['price']); ?></div>
+       
+   
+    <div><strong>Furnished:</strong> <?php echo htmlspecialchars($property['is_furnished']); ?></div>
+    <div><strong>Parking:</strong> <?php echo htmlspecialchars($property['parking']); ?></div>
+    <div><strong>Amenities:</strong> <?php echo htmlspecialchars($property['amenities']); ?></div>
+    <div><strong>Security:</strong> <?php echo htmlspecialchars($property['security']); ?></div>
+   
+   
+
     </div>
 
     <div class="description">
@@ -177,7 +213,6 @@ if (!$property) {
             image: "<?php echo htmlspecialchars($property['image_path']); ?>",
             location: "<?php echo htmlspecialchars($property['location']); ?>",
             price: "<?php echo htmlspecialchars($property['price']); ?>",
-            // Add other details as needed for the saved property display
             house_number: "<?php echo htmlspecialchars($property['house_number']); ?>"
         };
 
@@ -201,8 +236,6 @@ if (!$property) {
             }
         });
 
-        // This is a placeholder since you only have one image per property in your DB
-        // You would need to add a separate table for gallery images to make this dynamic
         function changeMainImage(src) {
             document.getElementById('mainImage').src = src;
         }
