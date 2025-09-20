@@ -1,14 +1,5 @@
 <?php
-$servername = "localhost";
-$username = "root"; 
-$password = ""; 
-$dbname = "elitestate"; 
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'db.php'; 
 
 function redirect_and_exit($message, $conn) {
     echo "<script>alert('" . htmlspecialchars($message) . "'); window.location.href = '" . basename($_SERVER['PHP_SELF']) . "';</script>";
@@ -18,28 +9,30 @@ function redirect_and_exit($message, $conn) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+    // initialize
+    $target_file = null;
+    $gallery_images = null;
+
     // --- Add Property ---
     if (isset($_POST['add_property'])) {
-        $title = $_POST['title'];
-        $house_number = $_POST['house_number'];
-        $price = $_POST['price'];
-        $availability = $_POST['availability'];
-        $description = $_POST['description'];
-        $location = $_POST['location'];
-        $bedrooms = $_POST['bedrooms'];
-        $bathrooms = $_POST['bathrooms'];
-        $size = $_POST['size'];
-        $is_furnished = $_POST['is_furnished'];
-        $parking = $_POST['parking'];
-        $amenities = $_POST['amenities'];
-        $security = $_POST['security'];
-        $agent_name = $_POST['agent_name'];
-        $agent_phone = $_POST['agent_phone'];
-        $property_age = $_POST['property_age'];
-        $floor_count = $_POST['floor_count'];
+        $title        = $_POST['title'] ?? null;
+        $house_number = $_POST['house_number'] ?? null;
+        $price        = $_POST['price'] ?? null;
+        $availability = $_POST['availability'] ?? null;
+        $description  = $_POST['description'] ?? null;
+        $location     = $_POST['location'] ?? null;
+        $bedrooms     = $_POST['bedrooms'] ?? null;
+        $bathrooms    = $_POST['bathrooms'] ?? null;
+        $size         = $_POST['size'] ?? null;
+        $is_furnished = $_POST['is_furnished'] ?? null;
+        $parking      = $_POST['parking'] ?? null;
+        $amenities    = $_POST['amenities'] ?? null;
+        $security     = $_POST['security'] ?? null;
+        $agent_name   = $_POST['agent_name'] ?? null;
+        $agent_phone  = $_POST['agent_phone'] ?? null;
+        $property_age = $_POST['property_age'] ?? null;
+        $floor_count  = $_POST['floor_count'] ?? null;
 
-        
-        $target_file = "";
         if (!empty($_FILES["image"]["name"])) {
             $target_dir = "uploads/";
             if (!is_dir($target_dir)) mkdir($target_dir);
@@ -47,7 +40,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
         }
 
-        
         $gallery_paths = [];
         if (!empty($_FILES['gallery_images']['name'][0])) {
             $target_dir = "uploads/";
@@ -62,13 +54,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $gallery_images = implode(",", $gallery_paths);
 
         $sql = "INSERT INTO furnish 
-        (title, house_number, price, availability, image_path, gallery_images, description, location, bedrooms, bathrooms, size, is_furnished, parking, amenities, security, agent_name, agent_phone, property_age, floor_count) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+(title, house_number, price, availability, image_path, gallery_images, description, location, bedrooms, bathrooms, size, is_furnished, parking, amenities, security, agent_name, agent_phone, property_age, floor_count) 
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssssssissssssssssi", 
-            $title, $house_number, $price, $availability, $target_file, $gallery_images, $description, $location, $bedrooms, $bathrooms, 
-            $size, $is_furnished, $parking, $amenities, $security, $agent_name, $agent_phone, $property_age, $floor_count
+        $stmt->bind_param(
+            "ssssssssiissssssssi",
+            $title,
+            $house_number,
+            $price,
+            $availability,
+            $target_file,
+            $gallery_images,
+            $description,
+            $location,
+            $bedrooms,
+            $bathrooms,
+            $size,
+            $is_furnished,
+            $parking,
+            $amenities,
+            $security,
+            $agent_name,
+            $agent_phone,
+            $property_age,
+            $floor_count
         );
 
         if ($stmt->execute()) {
@@ -79,43 +89,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->close();
     }
 
-  
+    // --- Edit Property ---
     if (isset($_POST['edit_property'])) {
-        $id = $_POST['property_id'];
-        $title = $_POST['title'];
-        $house_number = $_POST['house_number'];
-        $price = $_POST['price'];
-        $availability = $_POST['availability'];
-        $description = $_POST['description'];
-        $location = $_POST['location'];
-        $bedrooms = $_POST['bedrooms'];
-        $bathrooms = $_POST['bathrooms'];
-        $size = $_POST['size'];
-        $is_furnished = $_POST['is_furnished'];
-        $parking = $_POST['parking'];
-        $amenities = $_POST['amenities'];
-        $security = $_POST['security'];
-        $agent_name = $_POST['agent_name'];
-        $agent_phone = $_POST['agent_phone'];
-        $property_age = $_POST['property_age'];
-        $floor_count = $_POST['floor_count'];
+        $id           = $_POST['property_id'] ?? null;
+        $title        = $_POST['title'] ?? null;
+        $house_number = $_POST['house_number'] ?? null;
+        $price        = $_POST['price'] ?? null;
+        $availability = $_POST['availability'] ?? null;
+        $description  = $_POST['description'] ?? null;
+        $location     = $_POST['location'] ?? null;
+        $bedrooms     = $_POST['bedrooms'] ?? null;
+        $bathrooms    = $_POST['bathrooms'] ?? null;
+        $size         = $_POST['size'] ?? null;
+        $is_furnished = $_POST['is_furnished'] ?? null;
+        $parking      = $_POST['parking'] ?? null;
+        $amenities    = $_POST['amenities'] ?? null;
+        $security     = $_POST['security'] ?? null;
+        $agent_name   = $_POST['agent_name'] ?? null;
+        $agent_phone  = $_POST['agent_phone'] ?? null;
+        $property_age = $_POST['property_age'] ?? null;
+        $floor_count  = $_POST['floor_count'] ?? null;
 
+        // initialize
         $image_sql = "";
-        $params = [$title, $house_number, $price, $availability, $description, $location, $bedrooms, $bathrooms, $size, $is_furnished, $parking, $amenities, $security, $agent_name, $agent_phone, $property_age, $floor_count];
-        $types = "ssssssiiissssssssi";
+        $gallery_sql = "";
 
-   
+        // handle image (optional)
         if (!empty($_FILES["image"]["name"])) {
             $target_dir = "uploads/";
             if (!is_dir($target_dir)) mkdir($target_dir);
             $target_file = $target_dir . time() . "_" . basename($_FILES["image"]["name"]);
             move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
-            $image_sql .= ", image_path=?";
-            $params[] = $target_file;
-            $types .= "s";
+            $image_sql = ", image_path=?";
         }
 
-        
+        // handle gallery (optional)
         if (!empty($_FILES['gallery_images']['name'][0])) {
             $gallery_paths = [];
             $target_dir = "uploads/";
@@ -127,19 +135,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
             }
             $gallery_images = implode(",", $gallery_paths);
-            $image_sql .= ", gallery_images=?";
-            $params[] = $gallery_images;
-            $types .= "s";
+            $gallery_sql = ", gallery_images=?";
         }
 
-        $params[] = $id;
-        $types .= "i";
-
+        // build query dynamically
         $sql = "UPDATE furnish SET 
-            title=?, house_number=?, price=?, availability=?, description=?, location=?, bedrooms=?, bathrooms=?, size=?, is_furnished=?, parking=?, amenities=?, security=?, agent_name=?, agent_phone=?, property_age=?, floor_count=? $image_sql 
+            title=?, house_number=?, price=?, availability=?, description=?, location=?, bedrooms=?, bathrooms=?, size=?, is_furnished=?, parking=?, amenities=?, security=?, agent_name=?, agent_phone=?, property_age=?, floor_count=? 
+            $image_sql $gallery_sql 
             WHERE id=?";
-        
+
         $stmt = $conn->prepare($sql);
+
+        // build types and params
+        $types = "ssssssiiisssssssi"; // 17 fixed columns
+        $params = [
+            $title, $house_number, $price, $availability,
+            $description, $location, $bedrooms, $bathrooms,
+            $size, $is_furnished, $parking, $amenities,
+            $security, $agent_name, $agent_phone,
+            $property_age, $floor_count
+        ];
+
+        if ($image_sql) {
+            $types .= "s";
+            $params[] = $target_file;
+        }
+
+        if ($gallery_sql) {
+            $types .= "s";
+            $params[] = $gallery_images;
+        }
+
+        $types .= "i";
+        $params[] = $id;
+
         $stmt->bind_param($types, ...$params);
 
         if ($stmt->execute()) {
@@ -151,26 +180,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// --- DELETE ---
+// --- Delete Property ---
 if (isset($_GET['delete'])) {
-    $id = $_GET['delete'];
-    
-    $sql_img = "SELECT image_path, gallery_images FROM furnish WHERE id = ?";
-    $stmt_img = $conn->prepare($sql_img);
-    $stmt_img->bind_param("i", $id);
-    $stmt_img->execute();
-    $result_img = $stmt_img->get_result();
-    $row_img = $result_img->fetch_assoc();
-    if ($row_img) {
-        if (!empty($row_img['image_path']) && file_exists($row_img['image_path'])) unlink($row_img['image_path']);
-        if (!empty($row_img['gallery_images'])) {
-            foreach (explode(",", $row_img['gallery_images']) as $gimg) {
-                if (file_exists($gimg)) unlink($gimg);
-            }
-        }
-    }
-    $stmt_img->close();
-    
+    $id = (int) $_GET['delete'];
     $sql = "DELETE FROM furnish WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id);
@@ -352,9 +364,7 @@ if (isset($_GET['delete'])) {
                     <img src="<?php echo htmlspecialchars($row["image_path"]); ?>" alt="<?php echo htmlspecialchars($row["title"]); ?>">
                     <div class="property-details">
                         <h3><?php echo htmlspecialchars($row["title"]); ?></h3>
-                        <p><strong>House #:</strong> <?php echo htmlspecialchars($row["house_number]
-                        <p><strong>House #:</strong> <?php echo htmlspecialchars($row["house_number"]); <?php } else { ?>
-
+                        <p><strong>House #:</strong> <?php echo htmlspecialchars($row["house_number"]); ?></p>
                         <p><strong>Price:</strong> <?php echo htmlspecialchars($row["price"]); ?></p>
                         <p><strong>Availability:</strong> <?php echo htmlspecialchars($row["availability"]); ?></p>
                         <p><strong>Location:</strong> <?php echo htmlspecialchars($row["location"]); ?></p>
